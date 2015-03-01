@@ -1,31 +1,33 @@
 /* 
- * read /etc/utmp and list info therein
- * suppress empty records
- * formats time nicely
+ * who3.c - who with buffered reads
+ *        - suppresses empty records
+ *        - formats time nicely
+ *        - buffers input (using utmplib)
  */
 #include <stdio.h>
 #include <utmp.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <time.h>
+
 #define SHOWHOST
 
 void show_time(long);
 void show_info(struct utmp*);
 
 int main() {
-    struct utmp current_record;
-    int         utmpfd;
-    int         reclen = sizeof(current_record);
+    struct utmp *utbufp,          // holds pointer to next record
+                *utmp_next();     // returns pointer to next
 
-    if ( (utmpfd = open(_PATH_UTMP, O_RDONLY)) == -1) {
-        perror(_PATH_UTMP);
+    if (utmp_open(UTMP_FIL) == -1) {
+        perror(UTMP_FILE);
         exit(1);
     }
 
-    while ( read(utmpfd, &current_record, reclen) == reclen)
-        show_info(&current_record);
-    close(utmpfd);
+    while ( (utbufp = utmp_next()) != ((struct utmp*)NULL) )
+        show_info(utbufp);
+    utmp_closed();
     return 0;
 }
 
