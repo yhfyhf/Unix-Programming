@@ -22,12 +22,12 @@ int main() {
     }
 
 show_info(struct utmp *utbufp) {
-    printf("% -8.8s", utbufp->ut_name);
-    printf("");
+    printf("% -10.10s", utbufp->ut_name);
+    printf(" ");
     printf("% -8.8s", utbufp->ut_line);
-    printf("");
+    printf(" ");
     printf("% 10ld", utbufp->ut_time);
-    printf("");
+    printf(" ");
 #ifdef SHOWHOST
     printf("( %s)", utbufp->ut_host);
 #endif
