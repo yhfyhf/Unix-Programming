@@ -18,8 +18,8 @@ int main() {
     int         utmpfd;
     int         reclen = sizeof(current_record);
 
-    if ( (utmpfd = open(_PATH_UTMP, O_RDONLY)) == -1) {
-        perror(_PATH_UTMP);
+    if ( (utmpfd = open(UTMP_FILE, O_RDONLY)) == -1) {
+        perror(UTMP_FILE);
         exit(1);
     }
 
