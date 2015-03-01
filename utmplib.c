@@ -23,7 +23,7 @@
 
 #define NRECS 16
 #define NULLUT ((struct utmp *)NULL)
-#define UTSIZE(sizeof(struct utmp))
+#define UTSIZE (sizeof(struct utmp))
 
 static char utmpbuf[NRECS * UTSIZE]; // storage
 static int  num_recs;                // num stored 缓冲区的数据个数
@@ -37,7 +37,7 @@ utmp_open(char *filename) {
 }
 
 struct utmp* utmp_next() {
-    struct *recp;
+    struct utmp *recp;
     if (fd_utmp == -1)                                // error
         return NULLUT;
     if (cur_rec == num_recs && utmp_reload() == 0)    // any more?

@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <time.h>
+#include "utmplib.c"
 
 #define SHOWHOST
 
@@ -20,14 +21,14 @@ int main() {
     struct utmp *utbufp,          // holds pointer to next record
                 *utmp_next();     // returns pointer to next
 
-    if (utmp_open(UTMP_FIL) == -1) {
+    if (utmp_open(UTMP_FILE) == -1) {
         perror(UTMP_FILE);
         exit(1);
     }
 
     while ( (utbufp = utmp_next()) != ((struct utmp*)NULL) )
         show_info(utbufp);
-    utmp_closed();
+    utmp_close();
     return 0;
 }
 
